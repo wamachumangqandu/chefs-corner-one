@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { formatPrice, getCourse, parsePrice, type Course } from "./menuUtils";
+import RestaurantName from "./RestaurantName";
 
 export type MenuItem = {
   id: number;
@@ -132,6 +133,7 @@ export default function MenuScreen({ navigation, dishes }: MenuScreenProps) {
     <View style={styles.screen}>
       <View style={styles.titleRow}>
         <Text style={styles.title}>Menu</Text>
+        <RestaurantName />
       </View>
 
       <View style={styles.headerBar}>
@@ -301,6 +303,9 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingTop: 48,
     paddingBottom: 16,

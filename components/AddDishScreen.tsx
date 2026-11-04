@@ -12,6 +12,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import CourseSelector from "./CourseSelector";
 import { formatPrice, parsePrice, type Course } from "./menuUtils";
+import RestaurantName from "./RestaurantName";
 
 type AddDishScreenProps = {
   navigation: {
@@ -96,10 +97,13 @@ export default function AddDishScreen({
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.headerRow}>
-        <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
-          <Text style={styles.backButton}>←</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>Add Dish</Text>
+        <View style={styles.headerTitle}>
+          <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+            <Text style={styles.backButton}>←</Text>
+          </TouchableOpacity>
+          <Text style={styles.title}>Add Dish</Text>
+        </View>
+        <RestaurantName />
       </View>
 
       <View style={styles.formCard}>
@@ -165,7 +169,12 @@ const styles = StyleSheet.create({
   headerRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 20,
+  },
+  headerTitle: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   backButton: {
     fontSize: 28,

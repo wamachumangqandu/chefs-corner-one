@@ -52,6 +52,7 @@ npm run web
 - I added menu statistics for the total number of dishes, average price, and number of dishes in each course.
 - I added course selection and checks for dish names, descriptions, and prices.
 - I added four dishes with photos: Crab Croquettes, Peri-Peri Chicken Livers, Biscoff Banana Pudding, and Greek Yogurt Dessert.
+- I added the restaurant name, Chef's Corner, to the top-right of each screen.
 - I improved the messages shown when there are no matching dishes or when information needs to be fixed.
 
 ## Code changes I made
@@ -68,6 +69,7 @@ npm run web
 - `components/AddDishScreen.tsx` is the form for adding a dish.
 - `components/EditDishScreen.tsx` is the form for editing or deleting a dish.
 - `components/CourseSelector.tsx` lets the user choose a course.
+- `components/RestaurantName.tsx` displays the restaurant name at the top-right.
 - `components/menuUtils.ts` contains shared course and price functions.
 - `assets/` contains the dish photos and app images.
 
