@@ -1,75 +1,149 @@
 # Chef's Menu Manager
 
-A React Native application built with Expo for managing a restaurant menu.
+Chef's Menu Manager is a React Native mobile application built with Expo. It helps a chef manage a restaurant menu by adding, viewing, searching, filtering, editing, and deleting dishes.
 
-## Run the application
+## Table of contents
 
-Install the project dependencies, then start Expo:
+- [Project requirements](#project-requirements)
+- [Features](#features)
+- [Initial menu](#initial-menu)
+- [Getting started](#getting-started)
+- [Project structure](#project-structure)
+- [Change log since Part 2](#change-log-since-part-2)
+- [Refactoring and quality improvements](#refactoring-and-quality-improvements)
+- [Verification](#verification)
+- [Submission checklist](#submission-checklist)
+
+## Project requirements
+
+The final application addresses the assignment requirements as follows:
+
+1. **Manage menu items:** Select an existing dish to edit it, update its details, or delete it after confirming. Changes are reflected in the menu immediately.
+2. **Search and filter:** Search by dish name, course, or description; filter by Starter, Main Course, or Dessert; and clear search and course filters to show the full menu again.
+3. **Display menu statistics:** View the total number of dishes, the average price, and the number of dishes in each course. Statistics update when the menu changes.
+4. **Enhance the application:** Use reusable course selection and shared helper functions, consistent screen styling, and clear empty states.
+5. **User experience:** Navigate between menu, add, and edit screens; receive validation and confirmation messages; and use forms that validate dish names, descriptions, and prices.
+
+## Features
+
+- **View the menu:** See each dish's photo, course, name, description, quantity, and price.
+- **Search dishes:** Results update as you type and match dish names, courses, and descriptions.
+- **Filter by course:** Choose All, Starter, Main Course, or Dessert. Search and course filters can be used together.
+- **Clear filters:** Restore the complete menu with one action.
+- **Add dishes:** Enter a name, course, price, and description, and optionally choose a photo from the device's media library.
+- **Edit dishes:** Update a dish's name, course, price, description, or photo. The existing photo is kept if no replacement is selected.
+- **Delete dishes:** Confirm before removing a dish.
+- **View statistics:** See the menu item count, average price, and per-course counts.
+- **Validate input:** Dish names and descriptions cannot be blank; prices must be greater than zero and have no more than two decimal places.
+- **Receive feedback:** Forms report missing details or invalid prices, saves confirm success, and deletion requires confirmation.
+- **Handle empty results:** Helpful messages appear when no dishes exist or when no dishes match the active filters.
+
+## Initial menu
+
+| Dish | Course | Price |
+|---|---|---:|
+| Grilled Salmon | Main Course | R 120.00 |
+| Grilled Chicken | Main Course | R 160.00 |
+| Beef Stew | Main Course | R 110.00 |
+| Inyama Yentloko | Main Course | R 90.00 |
+| Crab Croquettes | Starter | R 90.00 |
+| Peri-Peri Chicken Livers | Starter | R 110.00 |
+| Biscoff Banana Pudding | Dessert | R 115.00 |
+| Greek Yogurt Dessert | Dessert | R 90.00 |
+
+## Getting started
+
+### Requirements
+
+- Node.js and npm
+- Expo-compatible development environment or Expo Go
+
+### Install and run
+
+From the project directory, install dependencies and start Expo:
 
 ```sh
 npm install
 npm start
 ```
 
-Use the Expo terminal options to open the app on Android, iOS, or web.
+Use the Expo terminal options to open the app on Android, iOS, or web. Platform-specific start commands are also available:
 
-## Features
+```sh
+npm run android
+npm run ios
+npm run web
+```
 
-- View the menu and search dishes by name, course, or description.
-- Filter dishes by Starter, Main Course, or Dessert, and clear filters to show the full menu.
-- Add dishes with a name, course, price, description, and optional photo.
-- Edit or delete existing dishes.
-- View live statistics for total dishes, average price, and the number of dishes in each course.
-- Select dish photos from the device's media library.
-- Validate dish details and prices and show user feedback for invalid input and successful saves.
+## Project structure
 
-The initial menu includes Grilled Salmon, Grilled Chicken, Beef Stew, Inyama Yentloko, Crab Croquettes, Peri-Peri Chicken Livers, Biscoff Banana Pudding, and Greek Yogurt Dessert.
+```text
+.
+├── App.tsx
+├── app.json
+├── assets/
+├── components/
+│   ├── AddDishScreen.tsx
+│   ├── CourseSelector.tsx
+│   ├── EditDishScreen.tsx
+│   ├── MenuScreen.tsx
+│   ├── TopNavBar.tsx
+│   └── menuUtils.ts
+├── index.ts
+├── package.json
+└── tsconfig.json
+```
+
+- `App.tsx` holds the app's screen state, menu data, and add, edit, and delete handlers.
+- `components/MenuScreen.tsx` displays the menu, search, course filters, and statistics.
+- `components/AddDishScreen.tsx` and `components/EditDishScreen.tsx` contain the dish forms.
+- `components/CourseSelector.tsx` provides the shared course-selection control.
+- `components/menuUtils.ts` contains shared course and price helpers.
+- `components/TopNavBar.tsx` provides navigation between app screens.
+- `assets/` contains the menu photos and app graphics.
 
 ## Change log since Part 2
 
-### Menu management
+- Added editing and deletion of existing menu items, including delete confirmation.
+- Added live menu search and course filtering, with a way to clear both.
+- Added live statistics for total dishes, average price, and counts by course.
+- Added Starter, Main Course, and Dessert selection to the add and edit forms.
+- Added input validation and user feedback for missing fields and invalid prices.
+- Added Crab Croquettes, Peri-Peri Chicken Livers, Biscoff Banana Pudding, and Greek Yogurt Dessert with their images.
+- Improved empty-result messages and consistency across the application screens.
 
-- Added the ability to select a menu item and open it in the edit form.
-- Added editing of a dish's name, course, price, description, and photo.
-- Added deletion of menu items with a confirmation prompt.
-- Updated the menu immediately after an item is added, edited, or deleted.
-- Kept a dish's existing photo when editing without selecting a replacement.
+## Refactoring and quality improvements
 
-### Search and course filters
+- Extracted `CourseSelector` for consistent course selection across add and edit forms.
+- Extracted shared course normalization and price parsing/formatting into `menuUtils.ts`.
+- Derived search results and statistics from the current menu state so they stay in sync with menu changes.
+- Normalized course names and price formatting.
+- Aligned Expo-related dependency versions with the Expo SDK configured in the project.
 
-- Added live text search across dish names, courses, and descriptions.
-- Added course filters for Starter, Main Course, and Dessert.
-- Combined text search and course filters so both can be applied at the same time.
-- Added controls to clear the search and filters and show the full menu again.
-- Added a helpful message when no dishes match the active search or filter.
+## Verification
 
-### Menu statistics and dishes
+Run the TypeScript check:
 
-- Added live statistics for the total number of dishes and the average menu price.
-- Added a count of dishes in each course.
-- Added Crab Croquettes (R 90.00) and Peri-Peri Chicken Livers (R 110.00) as starters.
-- Added Biscoff Banana Pudding (R 115.00) and Greek Yogurt Dessert (R 90.00) as desserts.
-- Added the four dish photos to the app's assets and menu.
+```sh
+npx tsc --noEmit
+```
 
-### Forms and user experience
+Check Expo package compatibility:
 
-- Added course selection for Starter, Main Course, and Dessert in both add and edit forms.
-- Added photo selection from the device's media library for new and existing dishes.
-- Added validation for required dish names and descriptions.
-- Added price validation requiring a positive amount with up to two decimal places.
-- Added clear feedback for missing details, invalid prices, successful saves, and delete confirmation.
-- Added helpful empty-menu messaging and kept form controls and styling consistent across screens.
+```sh
+npx expo install --check
+```
 
-## Refactoring and project updates
+The application has also been bundled for Android and iOS with Expo.
 
-- Extracted the shared `CourseSelector` component so add and edit forms use the same course-selection UI.
-- Added `components/menuUtils.ts` to share course normalization and price parsing/formatting logic.
-- Derived the menu statistics and filtered results from the current dish list so they stay in sync after changes.
-- Normalized course names and price formatting for the initial and newly added dishes.
-- Aligned Expo, React Native, image picker, status bar, and React type package versions with the Expo SDK installed in the project.
-- Verified the project with the TypeScript compiler and Expo Android and iOS bundle exports.
+## Submission checklist
 
-## Submission links
+- [x] Application source and assets are in the GitHub repository.
+- [x] README documents the features, changes since Part 2, and refactoring.
+- [ ] Add a publicly accessible video link demonstrating the application:
 
-- GitHub repository: https://github.com/wamachumangqandu/chefs-corner-one
-- Feature demonstration video: add an accessible video URL here.
+  **Video URL:** _Add your video link here._
+
+## Repository
+
+[https://github.com/wamachumangqandu/chefs-corner-one](https://github.com/wamachumangqandu/chefs-corner-one)
