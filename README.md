@@ -92,4 +92,4 @@ The app was bundled for Android and iOS with Expo.
 ## Submission links
 
 - GitHub repository: https://github.com/wamachumangqandu/chefs-corner-one
-- Video showing the app: _Add your video link here._
+- Video showing the app: https://youtu.be/fbED5NXn_RI
