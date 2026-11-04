@@ -1,6 +1,6 @@
-# Chef's Menu Manager
+# Hayibon
 
-This is my Chef's Menu Manager app. I built it with React Native and Expo. It helps a chef add, search, edit, and delete dishes on a menu.
+This is my Hayibon app. I built it with React Native and Expo. It helps a chef add, search, edit, and delete dishes on a menu.
 
 ## What the app can do
 
