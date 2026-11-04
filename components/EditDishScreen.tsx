@@ -10,6 +10,8 @@ import {
   Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import CourseSelector from "./CourseSelector";
+import { formatPrice, getCourse, parsePrice, type Course } from "./menuUtils";
 
 type DishLike = {
   id: number;
@@ -46,10 +48,12 @@ export default function EditDishScreen({
   onDelete,
 }: EditDishScreenProps) {
   const [dishName, setDishName] = useState(dish.name);
-  const [price, setPrice] = useState(dish.price);
+  const [price, setPrice] = useState(() =>
+    String(parsePrice(dish.price) ?? ""),
+  );
   const [description, setDescription] = useState(dish.description);
-  const [category, setCategory] = useState(
-    dish.brand && dish.brand !== "Brand" ? dish.brand : "Main",
+  const [category, setCategory] = useState<Course>(
+    getCourse(dish.brand) ?? "Main Course",
   );
   const [selectedImage, setSelectedImage] = useState<string | null>(() => {
     if (typeof dish.image === "string") {
@@ -65,9 +69,9 @@ export default function EditDishScreen({
 
   useEffect(() => {
     setDishName(dish.name);
-    setPrice(dish.price);
+    setPrice(String(parsePrice(dish.price) ?? ""));
     setDescription(dish.description);
-    setCategory(dish.brand && dish.brand !== "Brand" ? dish.brand : "Main");
+    setCategory(getCourse(dish.brand) ?? "Main Course");
     if (typeof dish.image === "string") {
       setSelectedImage(dish.image);
       return;
@@ -105,19 +109,28 @@ export default function EditDishScreen({
   };
 
   const handleUpdate = () => {
-    if (!dishName || !price || !description || !category) {
+    if (!dishName.trim() || !description.trim()) {
       Alert.alert(
         "Missing details",
-        "Please complete all fields before updating the dish.",
+        "Please enter a dish name and description before updating the dish.",
+      );
+      return;
+    }
+
+    const amount = parsePrice(price);
+    if (amount === null || amount <= 0) {
+      Alert.alert(
+        "Invalid price",
+        "Enter a price greater than zero, using up to two decimal places.",
       );
       return;
     }
 
     onSave({
       id: dish.id,
-      name: dishName,
-      description,
-      price,
+      name: dishName.trim(),
+      description: description.trim(),
+      price: formatPrice(amount),
       category,
       image: selectedImage,
     });
@@ -206,18 +219,13 @@ export default function EditDishScreen({
         />
 
         <Text style={styles.label}>Course</Text>
-        <TextInput
-          value={category}
-          onChangeText={setCategory}
-          placeholder="Course selection"
-          style={styles.input}
-        />
+        <CourseSelector value={category} onChange={setCategory} />
 
         <Text style={styles.label}>Price</Text>
         <TextInput
           value={price}
           onChangeText={setPrice}
-          placeholder="R 120.00"
+          placeholder="120.00"
           keyboardType="decimal-pad"
           style={styles.input}
         />

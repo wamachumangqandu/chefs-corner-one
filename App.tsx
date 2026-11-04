@@ -45,7 +45,7 @@ export default function App() {
     const newDish: DishItem = {
       id: Date.now(),
       name: dish.name,
-      brand: dish.category || "Main",
+      brand: dish.category || "Main Course",
       description: dish.description,
       price: dish.price,
       quantity: "Quantity: 01",
@@ -72,7 +72,7 @@ export default function App() {
           ? {
               ...dish,
               name: updatedDish.name,
-              brand: updatedDish.category || "Main",
+              brand: updatedDish.category || "Main Course",
               description: updatedDish.description,
               price: updatedDish.price,
               image: updatedDish.image

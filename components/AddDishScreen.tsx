@@ -10,6 +10,8 @@ import {
   Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import CourseSelector from "./CourseSelector";
+import { formatPrice, parsePrice, type Course } from "./menuUtils";
 
 type AddDishScreenProps = {
   navigation: {
@@ -31,7 +33,7 @@ export default function AddDishScreen({
   const [dishName, setDishName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<Course>("Main Course");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const pickImage = async () => {
@@ -58,23 +60,32 @@ export default function AddDishScreen({
   };
 
   const handleSubmit = () => {
-    if (!dishName || !price || !description || !category) {
+    if (!dishName.trim() || !description.trim()) {
       Alert.alert(
         "Missing details",
-        "Please complete all fields before saving.",
+        "Please enter a dish name and description before saving.",
+      );
+      return;
+    }
+
+    const amount = parsePrice(price);
+    if (amount === null || amount <= 0) {
+      Alert.alert(
+        "Invalid price",
+        "Enter a price greater than zero, using up to two decimal places.",
       );
       return;
     }
 
     onSave({
-      name: dishName,
-      description,
-      price,
+      name: dishName.trim(),
+      description: description.trim(),
+      price: formatPrice(amount),
       category,
       image: selectedImage,
     });
 
-    Alert.alert("Dish saved", `${dishName} has been added to the menu.`);
+    Alert.alert("Dish saved", `${dishName.trim()} has been added to the menu.`);
     navigation.navigate("Menu");
   };
 
@@ -100,19 +111,14 @@ export default function AddDishScreen({
           style={styles.input}
         />
 
-        <Text style={styles.label}>Category</Text>
-        <TextInput
-          value={category}
-          onChangeText={setCategory}
-          placeholder="Main, starter, dessert..."
-          style={styles.input}
-        />
+        <Text style={styles.label}>Course</Text>
+        <CourseSelector value={category} onChange={setCategory} />
 
         <Text style={styles.label}>Price</Text>
         <TextInput
           value={price}
           onChangeText={setPrice}
-          placeholder="R 0.00"
+          placeholder="120.00"
           keyboardType="decimal-pad"
           style={styles.input}
         />
